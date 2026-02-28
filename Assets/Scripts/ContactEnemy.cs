@@ -12,12 +12,21 @@ public class ContactEnemy : MonoBehaviour
     public Rigidbody2D rb;
     private bool canMove = true;
 
+    public int health;
+
     public float knockbackDuration;
     public float knockbackForce;
     private bool isKnockbacked;
+
+    public float distanceToPlayer;
+
+    public EnemyManager enemyManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        enemyManager = FindFirstObjectByType<EnemyManager>();
+        player = FindAnyObjectByType<PlayerMovement>().gameObject;
+       enemyManager.AddToList(this.gameObject);
        
     }
 
@@ -30,6 +39,10 @@ public class ContactEnemy : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+    }
 
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -73,6 +86,25 @@ public class ContactEnemy : MonoBehaviour
         isKnockbacked = false;
         canMove = true;
     }
+
+
+    public void TakeDamage(int Damage)
+    {
+        health -= Damage;
+
+        if(health <= 0)
+        {
+            Death();
+        }
+    }
+
+    public void Death()
+    {
+        enemyManager.RemoveFromList(this.gameObject);
+        Destroy(this.gameObject);
+    }
+
+
 
 
 }

@@ -8,12 +8,13 @@ public class PlayerStats : MonoBehaviour
     public int health = 1;
     public float iframes = .1f;
     public bool canTakeDamage = true;
+    public Color playerColor;
     Renderer playerRenderer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerRenderer = GetComponent<Renderer>();
-        playerRenderer.material.color = Color.cyan;
+        playerRenderer.material.color = playerColor;
     }
 
     // Update is called once per frame
@@ -51,7 +52,7 @@ public class PlayerStats : MonoBehaviour
 
         playerRenderer.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        playerRenderer.material.color = Color.cyan;
+        playerRenderer.material.color = playerColor;
 
     }
     
