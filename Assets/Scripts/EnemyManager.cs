@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.AdaptivePerformance;
 using UnityEngine.InputSystem;
 
 public class EnemyManager : MonoBehaviour
@@ -23,11 +21,15 @@ public class EnemyManager : MonoBehaviour
     {
         
     }
+    void OnEnable() 
+    {
+        inputAction.Enable();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (inputAction.IsPressed())
+        if (inputAction.WasPressedThisFrame())
         {
             Instantiate(enemyPrefab);
         }

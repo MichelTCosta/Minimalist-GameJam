@@ -20,6 +20,7 @@ public class ShootingTriangle : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        enemyManager = FindFirstObjectByType<EnemyManager>();
     }
 
     // Update is called once per frame
@@ -52,7 +53,7 @@ public class ShootingTriangle : MonoBehaviour
                 if(closestEnemy == null) return;
                 GameObject spawnedBullet = Instantiate(bullet, transform.position, transform.rotation);
                 Bullet bulletScript = spawnedBullet.GetComponent<Bullet>();
-                bulletScript.enemyPosition = closestEnemy.transform.position;
+                bulletScript.enemyPosition = closestEnemy;
                 bulletScript.speed = bulletSpeed;
                 bulletScript.damage = bulletDamage;
             }    

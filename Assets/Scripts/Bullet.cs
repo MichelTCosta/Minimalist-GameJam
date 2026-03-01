@@ -6,29 +6,34 @@ public class Bullet : MonoBehaviour
 {
     [HideInInspector]public float speed;
     [HideInInspector]public int damage;
-    public Vector2 enemyPosition;
+    public GameObject enemyPosition;
     private Rigidbody2D rb;
-    bool checkEnemy;
+    Vector2 bulletChecker;
+
+    Vector2 bulletCheker2;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Destroy(this.gameObject, 10);
-        StartCoroutine(DestroyIfEnemyDead());
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (checkEnemy)
+
+        if(enemyPosition == null)
         {
-            if(rb.linearVelocity == Vector2.zero)
-            {        
-                Destroy(this.gameObject);
-            }
+            Destroy(this.gameObject);
+        }
+        if(enemyPosition != null)
+        {
+            rb.MovePosition(Vector2.MoveTowards(transform.position, enemyPosition.transform.position, speed));
         }
 
-        rb.MovePosition(Vector2.MoveTowards(transform.position, enemyPosition , speed));
     }
 
     void FixedUpdate() 
@@ -44,10 +49,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    IEnumerator DestroyIfEnemyDead()
-    {
-        yield return new WaitForSeconds(0.1f);
-        checkEnemy = true;
 
-    }
+
+
 }

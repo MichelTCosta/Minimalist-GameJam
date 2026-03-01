@@ -24,6 +24,7 @@ public class ContactEnemy : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GetComponent<Renderer>().material.color = Color.red;
         enemyManager = FindFirstObjectByType<EnemyManager>();
         player = FindAnyObjectByType<PlayerMovement>().gameObject;
        enemyManager.AddToList(this.gameObject);
@@ -91,7 +92,7 @@ public class ContactEnemy : MonoBehaviour
     public void TakeDamage(int Damage)
     {
         health -= Damage;
-
+        StartCoroutine(TakeDamgeColorChange());
         if(health <= 0)
         {
             Death();
@@ -104,6 +105,14 @@ public class ContactEnemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    IEnumerator TakeDamgeColorChange()
+    {
+
+        GetComponent<Renderer>().material.color = Color.black;
+        yield return new WaitForSeconds(0.1f);
+        GetComponent<Renderer>().material.color = Color.red;
+
+    }
 
 
 
