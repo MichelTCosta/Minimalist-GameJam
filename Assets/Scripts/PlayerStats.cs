@@ -1,5 +1,7 @@
 using System.Collections;
+using System.ComponentModel.Design;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
@@ -10,6 +12,12 @@ public class PlayerStats : MonoBehaviour
     public bool canTakeDamage = true;
     public Color playerColor;
     Renderer playerRenderer;
+
+    [Header("Player Level Up")]
+
+    public float experienceNeededForUp = 25;
+    public float currentExperience = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,7 +49,18 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("You Died!");
     }
 
+    public void AddExperience(float experienceToAdd)
+    {
+        currentExperience += experienceToAdd;
+    }
 
+    public void LevelUp()
+    {
+        if(currentExperience >= experienceNeededForUp)
+        {
+            experienceNeededForUp *= 1.5f;
+        }
+    }
     IEnumerator ResetIframes()
     {
         yield return new WaitForSeconds(iframes);
@@ -56,5 +75,12 @@ public class PlayerStats : MonoBehaviour
 
     }
     
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Experience"))
+        {
+            other.GetComponent<Experience>().enableMoveToPlayer = true;
+        }   
+    }
 
 }

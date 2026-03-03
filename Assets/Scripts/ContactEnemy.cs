@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.Burst.Intrinsics;
 using System.Reflection.Emit;
+using Unity.Mathematics;
 
 public class ContactEnemy : MonoBehaviour
 {
@@ -20,14 +21,18 @@ public class ContactEnemy : MonoBehaviour
 
     public float distanceToPlayer;
 
+    public GameObject experiencePrefab;
+
     public EnemyManager enemyManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         GetComponent<Renderer>().material.color = Color.red;
         enemyManager = FindFirstObjectByType<EnemyManager>();
+        health = enemyManager.enemyHealth;
+
         player = FindAnyObjectByType<PlayerMovement>().gameObject;
-       enemyManager.AddToList(this.gameObject);
+        enemyManager.AddToList(this.gameObject);
        
     }
 
@@ -101,6 +106,7 @@ public class ContactEnemy : MonoBehaviour
 
     public void Death()
     {
+        Instantiate(experiencePrefab, transform.position, Quaternion.identity);
         enemyManager.RemoveFromList(this.gameObject);
         Destroy(this.gameObject);
     }
